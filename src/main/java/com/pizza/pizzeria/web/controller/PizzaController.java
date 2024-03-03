@@ -3,6 +3,7 @@ package com.pizza.pizzeria.web.controller;
 import com.pizza.pizzeria.persistence.entity.PizzaEntity;
 import com.pizza.pizzeria.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,20 @@ public class PizzaController {
     @GetMapping
     public ResponseEntity<List<PizzaEntity>> getAll(){
         return ResponseEntity.ok(this.pizzaService.getAll());
+    }
+    @GetMapping("/pageable")
+    public ResponseEntity<Page<PizzaEntity>> getAllPageSort(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "5") int elements){
+
+        return ResponseEntity.ok(this.pizzaService.getAllPagSort(page, elements));
+    }
+    @GetMapping("/sort")
+    public ResponseEntity<Page<PizzaEntity>> getAllSort(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "5") int elements,
+                                                        @RequestParam(defaultValue = "price") String sortBy,
+                                                        @RequestParam(defaultValue = "ASC") String sortDirection){
+
+        return ResponseEntity.ok(this.pizzaService.getAvailableSort(page, elements, sortBy, sortDirection));
     }
 
     @GetMapping("/{idPizza}")
