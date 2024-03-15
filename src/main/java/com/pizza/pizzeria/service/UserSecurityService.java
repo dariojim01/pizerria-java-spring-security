@@ -2,9 +2,11 @@ package com.pizza.pizzeria.service;
 
 import com.pizza.pizzeria.persistence.entity.UserEntity;
 import com.pizza.pizzeria.persistence.entity.UserRoleEntity;
+import com.pizza.pizzeria.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +28,7 @@ public class UserSecurityService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String[] roles = userEntity.getRoles().stream().map(UserRoleEntity::getRole).toArray(String[]::new);
-        return UserEntity.builder()
+        return User.builder()
                 .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
                 .authorities(this.grantedAuthorities(roles))

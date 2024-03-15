@@ -5,6 +5,7 @@ import com.pizza.pizzeria.persistence.projection.OrderSummary;
 import com.pizza.pizzeria.persistence.repository.OrderRepository;
 import com.pizza.pizzeria.service.dto.RandomOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class OrderService {
     public List<OrderEntity> getCustomerOrders(String idCustomer){
         return this.orderRepository.findCustomerOrders(idCustomer);
     }
-
+    @Secured("ROLE_ADMIN")
     public OrderSummary getSummary(int orderId){
        return this.orderRepository.findSummary(orderId);
     }
