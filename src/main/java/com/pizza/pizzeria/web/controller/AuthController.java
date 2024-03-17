@@ -33,5 +33,7 @@ public class AuthController {
         String jwt = this.jwtUtil.create(dto.getUsername());
         return ResponseEntity.ok().header("Authorization", "Bearer " + jwt).build();
     }
+
+
 }
 
